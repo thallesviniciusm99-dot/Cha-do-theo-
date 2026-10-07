@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chá de Fraldas do Théo - Safari</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f6f0;
+      color: #3b4a3a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .card-container {
+      max-width: 450px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(59, 74, 58, 0.12);
+      border: 3px solid #e1e8db;
+      text-align: center;
+    }
+    .header-banner {
+      background: linear-gradient(135deg, #a3b18a 0%, #588157 100%);
+      color: #ffffff;
+      padding: 35px 20px 25px 20px;
+      border-bottom-left-radius: 24px;
+      border-bottom-right-radius: 24px;
+    }
+    .safari-icons { font-size: 2.5rem; margin-bottom: 8px; }
+    h1 { font-size: 2.2rem; color: #ffffff; margin-bottom: 5px; font-weight: 700; }
+    .subtitle { font-size: 1.05rem; opacity: 0.95; font-weight: 600; }
+    .content { padding: 25px 20px; }
+    .section-box {
+      background: #f9faf7;
+      border: 2px solid #e6ebd9;
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+    .section-title { font-size: 1.25rem; color: #3a5a40; margin-bottom: 12px; font-weight: 700; }
+    .timer { display: flex; justify-content: center; gap: 8px; }
+    .time-unit { background: #3a5a40; color: #ffffff; padding: 10px 8px; border-radius: 12px; min-width: 68px; }
+    .time-unit span { display: block; font-size: 1.4rem; font-weight: 800; }
+    .time-unit label { font-size: 0.65rem; text-transform: uppercase; font-weight: 700; opacity: 0.85; }
+    .info-text { font-size: 0.98rem; color: #4a5d48; margin-bottom: 6px; line-height: 1.4; }
+    .btn {
+      display: inline-block;
+      width: 100%;
+      background-color: #588157;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 14px 20px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 10px rgba(88, 129, 87, 0.25);
+    }
+    .btn:hover { background-color: #3a5a40; }
+    .gift-result {
+      margin-top: 15px;
+      background: #e8efe6;
+      border: 2px dashed #a3b18a;
+      padding: 15px;
+      border-radius: 14px;
+      display: none;
+      font-weight: 700;
+      color: #3a5a40;
+    }
+  </style>
+</head>
+<body>
+  <div class="card-container">
+    <div class="header-banner">
+      <div class="safari-icons">🦁 🐘 🦒 🌿</div>
+      <h1>Chá do Théo</h1>
+      <p class="subtitle">Uma grande aventura está para começar!</p>
+    </div>
+    <div class="content">
+      <!-- Temporizador -->
+      <div class="section-box">
+        <div class="section-title">Contagem Regressiva ⏳</div>
+        <div class="timer">
+          <div class="time-unit"><span id="days">00</span><label>Dias</label></div>
+          <div class="time-unit"><span id="hours">00</span><label>Horas</label></div>
+          <div class="time-unit"><span id="minutes">00</span><label>Min</label></div>
+          <div class="time-unit"><span id="seconds">00</span><label>Seg</label></div>
+        </div>
+      </div>
+
+      <!-- Informações de Data -->
+      <div class="section-box">
+        <div class="section-title">Data & Horário 📅</div>
+        <p class="info-text"><strong>20 de Novembro de 2026</strong></p>
+        <p class="info-text">Às <strong>19:00h</strong></p>
+      </div>
+
+      <!-- Localização Google Maps -->
+      <div class="section-box">
+        <div class="section-title">Localização 📍</div>
+        <p class="info-text">JPC21 Qd 5 LT 4A</p>
+        <p class="info-text">Bairro Jardim Privé das Caldas</p>
+        <p class="info-text">Caldas Novas - GO</p>
+        <a class="btn" href="https://maps.google.com/?q=JPC21+Qd+5+LT+4A+bairro+jardim+prive+das+Caldas+caldas+novas" target="_blank">Abrir no Google Maps 🗺️</a>
+      </div>
+
+      <!-- Gerador de Fralda e Mimos -->
+      <div class="section-box">
+        <div class="section-title">Sugestão de Presente 🎁</div>
+        <p class="info-text">Descubra qual tamanho e mimo trazer para o Théo!</p>
+        <button class="btn" onclick="generateGift()">Sortear Meu Presente 🎲</button>
+        <div class="gift-result" id="giftResult"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Contagem Regressiva em Tempo Real
+    const eventDate = new Date('2026-11-20T19:00:00').getTime();
+    function updateTimer() {
+      const now = new Date().getTime();
+      const distance = eventDate - now;
+      if (distance > 0) {
+        document.getElementById('days').innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+        document.getElementById('hours').innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        document.getElementById('minutes').innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        document.getElementById('seconds').innerText = Math.floor((distance % (1000 * 60)) / 1000);
+      }
+    }
+    setInterval(updateTimer, 1000);
+    updateTimer();
+
+    // Sorteador de Fralda (20% P, 40% M, 40% G) + Mimo Aleatório
+    function generateGift() {
+      const rand = Math.random();
+      let size = 'M';
+      if (rand < 0.20) size = 'P';
+      else if (rand < 0.60) size = 'M';
+      else size = 'G';
+
+      const gifts = ['Lenço umedecido 🧻', 'Pomada de assadura 🧴', 'Sabonete para recém-nascido 🧼'];
+      const chosenGift = gifts[Math.floor(Math.random() * gifts.length)];
+
+      const resultDiv = document.getElementById('giftResult');
+      resultDiv.style.display = 'block';
+      resultDiv.innerHTML = `Fralda Tamanho <strong>${size}</strong><br>+ <strong>${chosenGift}</strong>`;
+    }
+  </script>
+</body>
+</html>
